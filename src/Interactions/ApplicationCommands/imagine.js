@@ -17,7 +17,7 @@ export default {
 
         if(!userPrompt) return interaction.reply({ content : "Please provide a prompt", ephemeral : true })
 
-        await interaction.reply({ content : `I is checking your daily quota...`,ephemeral : true})
+        await interaction.reply({ content : `I am checking your daily quota...`, ephemeral : true})
 
         var user = new User(interaction.user.id, interaction.member._roles)
 
