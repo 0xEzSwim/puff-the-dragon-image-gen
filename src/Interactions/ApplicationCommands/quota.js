@@ -7,7 +7,7 @@ export default {
     .setDescription("Check your daily quota"),
     execute : async interaction => {
 
-        await interaction.reply({ content : `${interaction.client?.user?.displayName || "Bot"} is checking your daily quota...`,ephemeral : true})
+        await interaction.reply({ content : `Checking your daily quota...`,ephemeral : true})
 
         var user = new User(interaction.user.id, interaction.member._roles)
         
@@ -25,11 +25,11 @@ export default {
             var firstTime = sorted[0].timestamp
             var nextTime = firstTime + 24 * 60 * 60 * 1000
 
-            return interaction.editReply({ content : `You have reached your daliy limit as ${usage.length} out of ${quota} images have been generated. You can generate more images after <t:${parseInt(nextTime / 1000)}>`, ephemeral : true })
+            return interaction.editReply({ content : `You have reached your daliy limit!\nI can imagine more images for you after <t:${parseInt(nextTime / 1000)}>\n\n📜 Daily quota - ${usage.length} / ${quota}`, ephemeral : true })
 
         }
 
-        return interaction.editReply({ content : `You have ${remaining} of ${quota} images left to generate.`, ephemeral : true })
+        return interaction.editReply({ content : `📜 Daily quota - ${usage.length} / ${quota}`, ephemeral : true })
 
     }
 }
