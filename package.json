@@ -1,5 +1,5 @@
 {
-  "name": "bot-base",
+  "name": "puff-the-dragon-image-gen",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -10,7 +10,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.5",
