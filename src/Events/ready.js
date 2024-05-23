@@ -8,11 +8,10 @@ export default client => {
         // Log the bot's tag
         console.log(`Logged in as ${cl.user.tag}`);
         
-        // Load the commands
-        // Comment the code below during production
-        // console.log("Loading commands...");
-        // await guildApplicationCommands(client);
-        // console.log("Commands loaded!");
+        // Load the commands (should only update once but for now we do this)
+        console.log("Loading commands...");
+        await guildApplicationCommands(client);
+        console.log("Commands loaded!");
 
     })
 
