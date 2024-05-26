@@ -16,8 +16,11 @@ export class User {
 
         var limit = 0
         for (var role of this.roles) {
-            if (LIMITATIONS[role] || 0 > limit) {
-                limit = LIMITATIONS[role]
+            if (LIMITATIONS[role]) {
+                var roleLimit = LIMITATIONS[role]
+                if (roleLimit > limit) {
+                    limit = roleLimit
+                }
             }
         }
 
