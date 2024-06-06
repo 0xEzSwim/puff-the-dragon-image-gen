@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import { User } from "../../Models/User/Client.js";
+import { WhiteEmbed, OrangeEmbed } from "../../Utils/Embeds/ErrorEmbed.js";
 
 export default {
     data : new SlashCommandBuilder()
@@ -7,7 +8,7 @@ export default {
     .setDescription("Check your daily quota"),
     execute : async interaction => {
 
-        await interaction.reply({ content : `Checking your daily quota...`,ephemeral : true})
+        await interaction.reply({ embeds : [WhiteEmbed(`I am checking your daily quota...`)], ephemeral : true })
 
         var user = new User(interaction.user.id, interaction.member._roles)
         
@@ -16,7 +17,7 @@ export default {
         var remaining = quota - usage.length
 
         if(quota == 0){
-            return interaction.editReply({ content : `🟠 You have no daily quota. Please upgrade your role.`, ephemeral : true })
+            return interaction.editReply({ embeds : [OrangeEmbed(`You have no daily quota. Please upgrade your role.`)], ephemeral : true })
         }
 
         if(remaining <= 0 ){
@@ -25,11 +26,11 @@ export default {
             var firstTime = sorted[0].timestamp
             var nextTime = firstTime + 24 * 60 * 60 * 1000
 
-            return interaction.editReply({ content : `🟠 You have reached your daliy limit!\nI can imagine more images for you after <t:${parseInt(nextTime / 1000)}>\n\n📜 Daily quota - ${usage.length} / ${quota}`, ephemeral : true })
+            return interaction.editReply({ embeds : [OrangeEmbed(`You have reached your daliy limit!\nI can imagine more images for you after <t:${parseInt(nextTime / 1000)}>\n\n📜 Daily quota - ${usage.length} / ${quota}`)], ephemeral : true })
 
         }
 
-        return interaction.editReply({ content : `📜 Daily quota - ${usage.length} / ${quota}`, ephemeral : true })
+        return interaction.editReply({ embeds : [WhiteEmbed(`📜 Daily quota - ${usage.length} / ${quota}`)], ephemeral : true })
 
     }
 }
