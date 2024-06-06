@@ -16,7 +16,7 @@ export default {
         var remaining = quota - usage.length
 
         if(quota == 0){
-            return interaction.editReply({ content : `You have no daily quota. Please upgrade your role.`, ephemeral : true })
+            return interaction.editReply({ content : `🟠 You have no daily quota. Please upgrade your role.`, ephemeral : true })
         }
 
         if(remaining <= 0 ){
@@ -25,7 +25,7 @@ export default {
             var firstTime = sorted[0].timestamp
             var nextTime = firstTime + 24 * 60 * 60 * 1000
 
-            return interaction.editReply({ content : `You have reached your daliy limit!\nI can imagine more images for you after <t:${parseInt(nextTime / 1000)}>\n\n📜 Daily quota - ${usage.length} / ${quota}`, ephemeral : true })
+            return interaction.editReply({ content : `🟠 You have reached your daliy limit!\nI can imagine more images for you after <t:${parseInt(nextTime / 1000)}>\n\n📜 Daily quota - ${usage.length} / ${quota}`, ephemeral : true })
 
         }
 
