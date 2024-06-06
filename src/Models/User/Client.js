@@ -34,7 +34,7 @@ export class User {
         var endDate = new Date().getTime()
 
         try {
-            return await DB.find({ userId: this.userId, timestamp: { $gte: startDate, $lte: endDate } })
+            return await DB.find({ userId: this.userId, timestamp: { $gte: startDate, $lte: endDate }, status: 200 })
         } catch (err) {
             if (process.env.DEBUG) console.error(err)
             return -1
@@ -42,10 +42,18 @@ export class User {
 
     }
 
-    createDocument = async (prompt) => {
+    isDescriptionPending = async () => {
 
         try {
-            return await new DB({ userId: this.userId, prompt: prompt, timestamp : Date.now() }).save()
+            var doc = await DB.findOne({ userId: this.userId }).sort({ timestamp: -1 })
+            if (!doc) return false
+            if (doc.status == null) {
+                if (Date.now() - doc.timestamp > 130000) {
+                    return false
+                }
+                return true
+            }
+            return false
         } catch (err) {
             if (process.env.DEBUG) console.error(err)
             return null
@@ -53,10 +61,22 @@ export class User {
 
     }
 
-    deleteDocument = async (doc) => {
+
+    createDocument = async (prompt) => {
 
         try {
-            return await DB.deleteOne({ _id: doc._id })
+            return await new DB({ userId: this.userId, prompt: prompt, timestamp: Date.now() }).save()
+        } catch (err) {
+            if (process.env.DEBUG) console.error(err)
+            return null
+        }
+
+    }
+
+    markError = async (doc, code) => {
+
+        try {
+            return await DB.updateOne({ _id: doc._id }, { status : code})
         } catch (err) {
             if (process.env.DEBUG) console.error(err)
             return null
@@ -67,11 +87,12 @@ export class User {
 
         try {
             return await DB.updateOne({ _id: doc._id }, {
-                $set : {
-                    prompt : prompt,
-                    revisedPrompt : revisedPrompt,
-                    messageId : messageId,
-                    imageUri : imageUrl
+                $set: {
+                    prompt: prompt,
+                    revisedPrompt: revisedPrompt,
+                    messageId: messageId,
+                    imageUri: imageUrl,
+                    status : 200
                 }
             })
         } catch (err) {
@@ -80,5 +101,7 @@ export class User {
         }
 
     }
+
+
 
 }

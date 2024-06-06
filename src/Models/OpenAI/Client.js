@@ -1,13 +1,14 @@
 import "dotenv/config"
 import OpenAI, { BadRequestError, OpenAIError } from "openai"
-import { ImageSize, Model, NumberOfImages, Quality, ResponseFormat, Style } from "./Config.js"
+import { ImageSize, Model, NumberOfImages, Quality, ResponseFormat, Style, Timeout } from "./Config.js"
 
 export class Client {
     
     static openAi = new OpenAI({
 
         apiKey : process.env.OPENAI_API_KEY,
-        organization : process.env.OPENAI_ORGANIZATION
+        organization : process.env.OPENAI_ORGANIZATION,
+        timeout : Timeout
     
     })
 
@@ -33,18 +34,9 @@ export class Client {
             return response.data[0]
         }).catch(error => {
             if(process.env.DEBUG) console.error(error)
-            if(error instanceof BadRequestError) return {
-                error : "Bad Request Error",
-                code : 400
-            }
-            if(error instanceof OpenAIError) return {
-                code : 500,
-                error : "OpenAI Error"
-            }
-            return {
-                error : "Unknown Error",
-                code : 501
-            }
+            if(error instanceof BadRequestError) return new Error(400)
+            if(error instanceof OpenAIError) return new Error(500)
+            return new Error(501)
         })
 
 
@@ -73,7 +65,7 @@ export class Client {
 
         var generatedImage = await Client.generate(prompt, userId)
 
-        if(generatedImage.error) return new Error(error.code || 501)
+        if(generatedImage instanceof Error) return generatedImage
 
         var imageBuffer = await Client.convert(generatedImage)
 
