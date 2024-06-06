@@ -73,7 +73,7 @@ export class Client {
 
         var generatedImage = await Client.generate(prompt, userId)
 
-        if(generatedImage.error) return new Error(error.code || 501)
+        if(generatedImage.error) return new Error(generatedImage.code || 501)
 
         var imageBuffer = await Client.convert(generatedImage)
 

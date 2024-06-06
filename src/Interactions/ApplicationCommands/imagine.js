@@ -53,7 +53,7 @@ export default {
                 return interaction.editReply({ content : `Someone is filling your daily quota! Contact the support immediately!\n\nError Code : 0x2\n_id${doc._id}`})
             })
             if(image.code == 400){
-                return interaction.editReply({ content : `I think this prompt is harmful. Please try another prompt.\n\nPrompt : ${userPrompt}`, ephemeral : true})
+                return interaction.editReply({ content : `Copyright fail! watch-out for any IP or specific character names or references in your description: ${userPrompt}`, ephemeral : true})
             }else if(image.code == 500){
                 return interaction.editReply({ content : `I am on vacation. Please try again later.`, ephemeral : true})
             }else if(image.code == 429){
