@@ -8,5 +8,6 @@ export default mongoose.model("Generations", new mongoose.Schema({
     messageId : { type : String, default : null },
     imageUri : { type : String, default : null },
     timestamp : { type : Number, default : null },
+    status : { type : Number, default : null },
 
 }))

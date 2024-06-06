@@ -4,3 +4,4 @@ export const ResponseFormat = "b64_json"
 export const Model = "dall-e-3"
 export const Quality = "hd"
 export const Style = "vivid"
+export const Timeout = 120000
