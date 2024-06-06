@@ -46,7 +46,6 @@ export class User {
 
         try {
             var doc = await DB.findOne({ userId: this.userId }).sort({ timestamp: -1 })
-            console.log(doc.timestamp);
             if (!doc) return false
             if (doc.status == null) {
                 if (Date.now() - doc.timestamp > 130000) {

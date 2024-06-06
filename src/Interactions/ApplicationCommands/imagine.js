@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { User } from "../../Models/User/Client.js";
 import { Client } from "../../Models/OpenAI/Client.js";
+import { YellowEmbed } from "../../Utils/Embeds/ErrorEmbed.js";
 
 export default {
     data : new SlashCommandBuilder()
@@ -17,7 +18,7 @@ export default {
 
         const userPrompt = interaction.options.getString("description")
 
-        if(!userPrompt) return interaction.reply({ content : "🟠 Please provide a prompt", ephemeral : true })
+        if(!userPrompt) return interaction.reply({ content : "", embeds : [YellowEmbed("Please provide a prompt")], ephemeral : true })
 
         await interaction.reply({ content : `I am checking your daily quota...`, ephemeral : true})
 
@@ -25,12 +26,12 @@ export default {
 
         var isPending = await user.isDescriptionPending()
 
-        if(isPending) return interaction.editReply({ content : `🟠 You have a pending request. Please wait for the previous request to be completed.`, ephemeral : true })
+        if(isPending) return interaction.editReply({ content : ``, embeds : [YellowEmbed("You have a pending request. Please wait for the previous request to be completed.")], ephemeral : true })
 
         var quota = await user.getDailyLimit()
 
         if(quota == 0){
-            return interaction.editReply({ content : `🟠 You have no daily quota. Please upgrade your role.`, ephemeral : true })
+            return interaction.editReply({ content : ``, embeds : [YellowEmbed("You have no daily quota. Please upgrade your role.")], ephemeral : true })
         }
 
         var usage = await user.getDailyUsage()
